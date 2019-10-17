@@ -60,7 +60,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function getCashiers() {
             if (!isAdmin()) return unauthorized();
-            const cashier = users.find(x => x.role === Role.Cashier);
+            const cashier = users.filter(x => x.role === Role.Cashier);
             return ok(cashier);
         }
         function getCashierById() {
