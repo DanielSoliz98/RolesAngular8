@@ -4,16 +4,21 @@ import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { CashierComponent } from './cashier/cashier.component';
+import { AuthGuard } from './_helpers/auth.guard';
+import { Role } from './_models/role';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'admin',
-    component: AdminComponent
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Admin] }
   },
   {
     path: 'login',
@@ -21,7 +26,9 @@ const routes: Routes = [
   },
   {
     path: 'cashier',
-    component: CashierComponent
+    component: CashierComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Admin, Role.Cashier] }
   },
 
   // otherwise redirect to home

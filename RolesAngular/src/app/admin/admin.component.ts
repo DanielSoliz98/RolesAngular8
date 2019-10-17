@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { first } from 'rxjs/operators';
+import { User } from '../_models/user';
+import { CashierService } from '../_service/cashier.service';
 
-@Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
-})
+
+@Component({ templateUrl: 'admin.component.html' })
 export class AdminComponent implements OnInit {
+    loading = false;
+    cashiers: User[] = [];
 
-  constructor() { }
+    constructor(private cashierService: CashierService) { }
 
-  ngOnInit() {
-  }
-
+    ngOnInit() {
+        this.loading = true;
+        this.cashierService.getAll().pipe(first()).subscribe(cashiers => {
+            this.loading = false;
+            this.cashiers = cashiers;
+        });
+    }
 }
