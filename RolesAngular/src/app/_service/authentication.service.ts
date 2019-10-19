@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../_models/user';
 import { environment } from 'src/environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 @Injectable({ providedIn: 'root' })
@@ -12,10 +13,14 @@ export class AuthenticationService {
     public currentUser: Observable<User>;
 
     constructor(private http: HttpClient) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUserSubject = new BehaviorSubject<User>(this.decodeToken());
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
+    public decodeToken(){
+        const helper = new JwtHelperService();
+        return helper.decodeToken(localStorage.getItem('token'));
+    }
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
     }
@@ -25,8 +30,6 @@ export class AuthenticationService {
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
                     localStorage.setItem('token', JSON.stringify(user.token));
                     this.currentUserSubject.next(user);
                 }
@@ -36,8 +39,6 @@ export class AuthenticationService {
     }
 
     logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
         localStorage.removeItem('token');
         this.currentUserSubject.next(null);
     }
