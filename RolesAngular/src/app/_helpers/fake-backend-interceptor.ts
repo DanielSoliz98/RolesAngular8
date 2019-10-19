@@ -5,8 +5,6 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { Role } from '../_models/role';
 import { User } from '../_models/user';
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { error } from 'util';
-import { ok } from 'assert';
 
 
 const users: User[] = [
@@ -57,15 +55,18 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function authenticate() {
             const { email, password } = body;
             const user = users.find(x => x.email === email && x.password === password);
-            const token = tokens.find(x => x.id === user.id);
-            if (!user) return error('Email or password is incorrect');
-            return ok({
-                id: user.id,
-                email: user.email,
-                username: user.username,
-                role: user.role,
-                token: token.token
-            });
+            if(user){
+                const token = tokens.find(x => x.id === user.id);
+                return ok({
+                    id: user.id,
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                    token: token.token
+                });
+            }else{
+                return error('Email or password is incorrect')
+            }
         }
 
         function getCashiers() {
@@ -92,7 +93,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return throwError({ status: 401, error: { message: 'unauthorized' } });
         }
 
-        function error(message) {
+        function error(message: string) {
             return throwError({ status: 400, error: { message } });
         }
 
