@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { Role } from '../_models/role';
 import { User } from '../_models/user';
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { error } from 'util';
 import { ok } from 'assert';
 
@@ -17,12 +18,12 @@ const users: User[] = [
     { id: 6, email: "cinemastudio_cashier5@gmail.com", password:"cashier5", username: 'cashier5', role: Role.Cashier }
 ];
 const tokens = [
-    { id: 1, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19hZG1pbkBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIn0.bP52QqrjPpIFsnMKG7NQQ9InLVLKt9pcSabNkCMgCdA"},
-    { id: 2, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19jYXNoaWVyMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNhc2hpZXIxIiwicm9sZSI6IkNhc2hpZXIifQ.rR3euH8BpJZbdsevgy9i_R-V17D4Cl-TAHaLh212szc"},
-    { id: 3, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19jYXNoaWVyMkBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNhc2hpZXIyIiwicm9sZSI6IkNhc2hpZXIifQ.bv4dzu0p36ih0PUPT4Zjigt7-DuErlkmvBokBDxxsCU"},
-    { id: 4, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19jYXNoaWVyM0BnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNhc2hpZXIzIiwicm9sZSI6IkNhc2hpZXIifQ.cN9uugj0coJgkMHGfJXFgKuCjuD9kyLpFR1_6Z8z2qk"},
-    { id: 5, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19jYXNoaWVyNEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNhc2hpZXI0Iiwicm9sZSI6IkNhc2hpZXIifQ.nhmiFywvg71gT6kyCF2FDVTjJF6RPR5pubQYkhgWPX8"},
-    { id: 6, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19jYXNoaWVyNUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNhc2hpZXI1Iiwicm9sZSI6IkNhc2hpZXIifQ.VJepI2fp_QrzzDeGr35dWqGWXEH1EIoktomBjH68NdM"}
+    { id: 1, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJjaW5lbWFzdHVkaW9fYWRtaW5AZ21haWwuY29tIiwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiJ9.iJVPKy7Aitxh09xmGi8n00AkCy6PxSn6sa6EIeN8Yx8"},
+    { id: 2, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJjaW5lbWFzdHVkaW9fY2FzaGllcjFAZ21haWwuY29tIiwidXNlcm5hbWUiOiJjYXNoaWVyMSIsInJvbGUiOiJDYXNoaWVyIn0.VyuH0IIGKZDfBW9S_Gn60n0c2Layu8doABNdLhz8Zxw"},
+    { id: 3, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJjaW5lbWFzdHVkaW9fY2FzaGllcjJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJjYXNoaWVyMiIsInJvbGUiOiJDYXNoaWVyIn0.a8OlkvMLWMSlMFOIbuBZ_6xb4cBXpZ4KU9SiVw61TCc"},
+    { id: 4, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJjaW5lbWFzdHVkaW9fY2FzaGllcjNAZ21haWwuY29tIiwidXNlcm5hbWUiOiJjYXNoaWVyMyIsInJvbGUiOiJDYXNoaWVyIn0.DgY64kVoeiSty0tEKJ-6Xo-Qh3N7hPTbru7VHrtbkik"},
+    { id: 5, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJjaW5lbWFzdHVkaW9fY2FzaGllcjRAZ21haWwuY29tIiwidXNlcm5hbWUiOiJjYXNoaWVyNCIsInJvbGUiOiJDYXNoaWVyIn0.av20HjMGPkGvUjmwL4yS9K3vmS0nKFRM8JabICzDOp0"},
+    { id: 6, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJjaW5lbWFzdHVkaW9fY2FzaGllcjVAZ21haWwuY29tIiwidXNlcm5hbWUiOiJjYXNoaWVyNSIsInJvbGUiOiJDYXNoaWVyIn0.B0u22GK4ThYV7DhAYiPPNb_waIbFI77qwL4ZkvC4Fqs"}
 ];
 
 @Injectable()
@@ -69,8 +70,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function getCashiers() {
             if (!isAdmin()) return unauthorized();
-            const cashier = users.filter(x => x.role === Role.Cashier);
-            return ok(cashier);
+            const cashiers = users.filter(x => x.role === Role.Cashier);
+            return ok(cashiers);
         }
         function getCashierById() {
             if (!isLoggedIn()) return unauthorized();
@@ -106,8 +107,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function currentUser() {
             if (!isLoggedIn()) return;
-            const id = parseInt(headers.get('Authorization').split('.')[1]);
-            return users.find(x => x.id === id);
+            const helper = new JwtHelperService();
+            const decodedToken = helper.decodeToken(headers.get('Authorization'));
+            console.log(decodedToken);
+            return users.find(x => x.id === decodedToken.id);
         }
 
         function idFromUrl() {

@@ -22,11 +22,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loading = true;
-    this.cashierService.getById(this.currentUser.id).pipe(first()).subscribe(user => {
-      this.loading = false;
-      this.userFromApi = user;
-    });
+    
   }
 
 }

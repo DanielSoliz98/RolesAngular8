@@ -5,9 +5,8 @@
         <p>Your role is: <strong>{{currentUser.role}}</strong>.</p>
         <p>This page can be accessed by <u>all authenticated users</u>.</p>
         <p class="mb-1">Current user from secure api end point:</p>
-        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-        <ul *ngIf="userFromApi">
-            <li>{{userFromApi.username}} {{userFromApi.email}}</li>
+        <ul *ngIf="currentUser">
+            <li>{{currentUser.username}} {{currentUser.email}}</li>
         </ul>
     </div>
 </div>
