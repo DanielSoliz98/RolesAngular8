@@ -102,20 +102,24 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function isAdmin() {
-            return isLoggedIn() && currentUser().role === Role.Admin;
+            const decodedToken = decodeToken();
+            return isLoggedIn() && decodedToken.role === Role.Admin;
         }
 
         function currentUser() {
             if (!isLoggedIn()) return;
-            const helper = new JwtHelperService();
-            const decodedToken = helper.decodeToken(headers.get('Authorization'));
-            console.log(decodedToken);
+            const decodedToken = decodeToken();
             return users.find(x => x.id === decodedToken.id);
         }
 
         function idFromUrl() {
             const urlParts = url.split('/');
             return parseInt(urlParts[urlParts.length - 1]);
+        }
+
+        function decodeToken(){
+            const helper = new JwtHelperService();
+            return helper.decodeToken(headers.get('Authorization'));
         }
     }
 }
