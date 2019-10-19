@@ -17,7 +17,7 @@ export class AuthenticationService {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    public decodeToken(){
+    private decodeToken(){
         const helper = new JwtHelperService();
         return helper.decodeToken(localStorage.getItem('token'));
     }
@@ -27,14 +27,12 @@ export class AuthenticationService {
 
     login(email: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { email, password })
-            .pipe(map(user => {
+            .pipe(map(response => {
                 // login successful if there's a jwt token in the response
-                if (user && user.token) {
-                    localStorage.setItem('token', JSON.stringify(user.token));
-                    this.currentUserSubject.next(user);
+                if (response.token) {
+                    localStorage.setItem('token', response.token);
+                    this.currentUserSubject.next(this.decodeToken());
                 }
-
-                return user;
             }));
     }
 

@@ -7,6 +7,7 @@ import { CashierComponent } from './cashier/cashier.component';
 import { AuthGuard } from './_helpers/auth.guard';
 import { Role } from './_models/role';
 import { NoAccessComponent } from './no-access/no-access.component';
+import { AdminAuthGuard } from './_helpers/admin.auth.guard';
 
 
 const routes: Routes = [
@@ -18,7 +19,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AdminAuthGuard],
     data: { roles: [Role.Admin] }
   },
   {

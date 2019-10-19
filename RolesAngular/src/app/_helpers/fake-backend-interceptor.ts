@@ -58,10 +58,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             if(user){
                 const token = tokens.find(x => x.id === user.id);
                 return ok({
-                    id: user.id,
-                    email: user.email,
-                    username: user.username,
-                    role: user.role,
                     token: token.token
                 });
             }else{
@@ -96,15 +92,18 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function error(message: string) {
             return throwError({ status: 400, error: { message } });
         }
-
-        function isLoggedIn() {
-            const authHeader = headers.get('Authorization') || '';
-            return authHeader.startsWith('Bearer');
-        }
-
+        
         function isAdmin() {
             const decodedToken = decodeToken();
             return isLoggedIn() && decodedToken.role === Role.Admin;
+        }
+
+        function isLoggedIn() {
+            let token = localStorage.getItem('token');
+            if(!token) return false;
+            const helper = new JwtHelperService();
+            console.log(helper.isTokenExpired(token));
+            return !helper.isTokenExpired(token);
         }
 
         function currentUser() {
@@ -120,7 +119,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function decodeToken(){
             const helper = new JwtHelperService();
-            return helper.decodeToken(headers.get('Authorization'));
+            return helper.decodeToken(localStorage.getItem('token'));
         }
     }
 }
