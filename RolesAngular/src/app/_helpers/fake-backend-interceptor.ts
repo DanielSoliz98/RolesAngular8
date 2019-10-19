@@ -16,6 +16,14 @@ const users: User[] = [
     { id: 5, email: "cinemastudio_cashier4@gmail.com", password:"cashier4", username: 'cashier4', role: Role.Cashier },
     { id: 6, email: "cinemastudio_cashier5@gmail.com", password:"cashier5", username: 'cashier5', role: Role.Cashier }
 ];
+const tokens = [
+    { id: 1, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19hZG1pbkBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIn0.bP52QqrjPpIFsnMKG7NQQ9InLVLKt9pcSabNkCMgCdA"},
+    { id: 2, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19jYXNoaWVyMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNhc2hpZXIxIiwicm9sZSI6IkNhc2hpZXIifQ.rR3euH8BpJZbdsevgy9i_R-V17D4Cl-TAHaLh212szc"},
+    { id: 3, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19jYXNoaWVyMkBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNhc2hpZXIyIiwicm9sZSI6IkNhc2hpZXIifQ.bv4dzu0p36ih0PUPT4Zjigt7-DuErlkmvBokBDxxsCU"},
+    { id: 4, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19jYXNoaWVyM0BnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNhc2hpZXIzIiwicm9sZSI6IkNhc2hpZXIifQ.cN9uugj0coJgkMHGfJXFgKuCjuD9kyLpFR1_6Z8z2qk"},
+    { id: 5, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19jYXNoaWVyNEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNhc2hpZXI0Iiwicm9sZSI6IkNhc2hpZXIifQ.nhmiFywvg71gT6kyCF2FDVTjJF6RPR5pubQYkhgWPX8"},
+    { id: 6, token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNpbmVtYXN0dWRpb19jYXNoaWVyNUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNhc2hpZXI1Iiwicm9sZSI6IkNhc2hpZXIifQ.VJepI2fp_QrzzDeGr35dWqGWXEH1EIoktomBjH68NdM"}
+];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -48,13 +56,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function authenticate() {
             const { email, password } = body;
             const user = users.find(x => x.email === email && x.password === password);
+            const token = tokens.find(x => x.id === user.id);
             if (!user) return error('Email or password is incorrect');
             return ok({
                 id: user.id,
                 email: user.email,
                 username: user.username,
                 role: user.role,
-                token: `fake-jwt-token.${user.id}`
+                token: token.token
             });
         }
 
@@ -88,7 +97,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function isLoggedIn() {
             const authHeader = headers.get('Authorization') || '';
-            return authHeader.startsWith('Bearer fake-jwt-token');
+            return authHeader.startsWith('Bearer');
         }
 
         function isAdmin() {

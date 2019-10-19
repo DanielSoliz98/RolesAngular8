@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { CashierComponent } from './cashier/cashier.component';
 import { AuthGuard } from './_helpers/auth.guard';
 import { Role } from './_models/role';
+import { NoAccessComponent } from './no-access/no-access.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,10 @@ const routes: Routes = [
     component: CashierComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Admin, Role.Cashier] }
+  },
+  { 
+    path: 'no-access', 
+    component: NoAccessComponent 
   },
 
   // otherwise redirect to home

@@ -12,6 +12,7 @@ import { CashierComponent } from './cashier/cashier.component';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { fakeBackendProvider } from './_helpers/fake-backend-interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { NoAccessComponent } from './no-access/no-access.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,6 +20,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
     HomeComponent,
     AdminComponent,
     CashierComponent,
+    NoAccessComponent,
   ],
   imports: [
     BrowserModule,
