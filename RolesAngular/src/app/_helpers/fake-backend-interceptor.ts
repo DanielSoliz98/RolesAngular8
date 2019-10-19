@@ -102,7 +102,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             let token = localStorage.getItem('token');
             if(!token) return false;
             const helper = new JwtHelperService();
-            console.log(helper.isTokenExpired(token));
             return !helper.isTokenExpired(token);
         }
 

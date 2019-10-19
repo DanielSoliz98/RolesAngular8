@@ -1,11 +1,13 @@
-<div class="card mt-4">
-    <h4 class="card-header">Admin</h4>
-    <div class="card-body">
-        <p>This page can be accessed <u>only by administrators</u>.</p>
-        <p class="mb-1">All users from secure (admin only) api end point:</p>
-        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-        <ul *ngIf="cashiers">
-            <li *ngFor="let cashier of cashiers">{{cashier.username}} {{cashier.email}}</li>
-        </ul>
+<div class="container-fluid d-flex justify-content-center">
+    <div class="card col-12 mt-4">
+        <h4 class="card-header">Admin</h4>
+        <div class="card-body">
+            <p>This page can be accessed <u>only by administrators</u>.</p>
+            <p class="mb-1">All users from secure (admin only) api end point:</p>
+            <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+            <ul *ngIf="cashiers">
+                <li *ngFor="let cashier of cashiers">{{cashier.username}} {{cashier.email}}</li>
+            </ul>
+        </div>
     </div>
 </div>

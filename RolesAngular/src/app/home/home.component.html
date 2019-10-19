@@ -1,12 +1,17 @@
-<div class="card mt-4">
-    <h4 class="card-header">Home</h4>
-    <div class="card-body">
-        <p>You're logged in with Angular 8 & JWT!!</p>
-        <p>Your role is: <strong>{{currentUser.role}}</strong>.</p>
-        <p>This page can be accessed by <u>all authenticated users</u>.</p>
-        <p class="mb-1">Current user from secure api end point:</p>
-        <ul *ngIf="currentUser">
-            <li>{{currentUser.username}} {{currentUser.email}}</li>
-        </ul>
+<div class="container-fluid text-center">
+    <h1>Main Page for all Users.</h1>
+</div>
+<div class="d-flex justify-content-center">
+    <div class="card col-10 mt-4">
+        <h4 class="card-header">Home</h4>
+        <div *ngIf="currentUser" class="card-body">
+            <p>Your role is: <strong>{{currentUser.role}}</strong>.</p>
+            <p>This page can be accessed by <u>all authenticated users</u>.</p>
+            <p class="mb-1">Current user from secure api end point:</p>
+            <ul *ngIf="currentUser">
+                <li>{{currentUser.username}} {{currentUser.email}}</li>
+            </ul>
+        </div>
     </div>
+
 </div>

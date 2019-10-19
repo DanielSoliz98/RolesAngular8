@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="currentUser">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" >
   <a class="navbar-brand" href="#">CinemaStudioOne</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -13,9 +13,11 @@
         <a class="nav-item nav-link btn btn-primary" routerLink="/admin" *ngIf="isAdmin">Admin</a>
       </li>
       <li class="nav-item active ml-2">
-        <a class="nav-item nav-link btn btn-primary" routerLink="/cashier" *ngIf="isCashier">Cashier</a>
+        <a class="nav-item nav-link btn btn-primary" routerLink="/cashier" *ngIf="isCashier || isAdmin">Cashier</a>
+      </li>
     </ul>
-    <a class="nav-item nav-link btn btn-secondary" (click)="logout()">Logout</a>
+    <a class="nav-item nav-link btn btn-secondary ml-2" *ngIf="!isCashier && !isAdmin"routerLink="/login">Login</a>
+    <a class="nav-item nav-link btn btn-secondary" *ngIf="isCashier || isAdmin" (click)="logout()">Logout</a>
   </div>
 </nav>
 <router-outlet></router-outlet>

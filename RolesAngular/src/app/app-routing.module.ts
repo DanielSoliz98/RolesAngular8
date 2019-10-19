@@ -13,8 +13,7 @@ import { AdminAuthGuard } from './_helpers/admin.auth.guard';
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
+    component: HomeComponent
   },
   {
     path: 'admin',
