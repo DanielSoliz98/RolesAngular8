@@ -13,16 +13,14 @@ export class HomeComponent implements OnInit {
 
   loading = false;
   currentUser: User;
-  userFromApi: User;
   constructor(
-    private cashierService: CashierService,
     private authenticationService: AuthenticationService
   ) {
     this.currentUser = this.authenticationService.currentUserValue;
   }
 
   ngOnInit() {
-    
+
   }
 
 }
