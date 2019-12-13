@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,7 @@ import { fakeBackendProvider } from './_helpers/fake-backend-interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { NoAccessComponent } from './no-access/no-access.component';
 import { ExampleComponent } from './example/example.component';
+import { TableComponent } from './table/table.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,12 +25,15 @@ import { ExampleComponent } from './example/example.component';
     CashierComponent,
     NoAccessComponent,
     ExampleComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
+    FormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

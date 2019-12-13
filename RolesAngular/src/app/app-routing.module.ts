@@ -9,6 +9,7 @@ import { Role } from './_models/role';
 import { NoAccessComponent } from './no-access/no-access.component';
 import { AdminAuthGuard } from './_helpers/admin.auth.guard';
 import { ExampleComponent } from './example/example.component';
+import { TableComponent } from './table/table.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,10 @@ const routes: Routes = [
   { 
     path: 'example', 
     component: ExampleComponent 
+  },
+  { 
+    path: 'table', 
+    component: TableComponent 
   },
 
   // otherwise redirect to home
