@@ -8,32 +8,33 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class ExampleComponent implements OnInit {
 
-  countries = [
-    { id: 1, name: "United States" },
-    { id: 2, name: "Australia" },
-    { id: 3, name: "Canada" },
-    { id: 4, name: "Brazil" },
-    { id: 5, name: "England" }
+  rooms = [
+    { id: 1, sound: { name: "normal" }, format: { name: "3d" } },
+    { id: 2, sound: { name: "atmos" }, format: { name: "2d" } },
+    { id: 3, sound: { name: "normal" }, format: { name: "2d" } },
+    { id: 4, sound: { name: "atmos" }, format: { name: "3d" } }
   ];
   form: FormGroup;
 
   constructor() {
     this.form = new FormGroup({
-      country: new FormControl('', Validators.required),
-      name: new FormControl({value: '', disabled: true})
+      room: new FormControl('', Validators.required),
+      format: new FormControl({ value: '', disabled: true }),
+      sound: new FormControl({ value: '', disabled: true })
     })
   }
 
-  get country(): string {
-    return this.form.get('country').value;
+  get room(): string {
+    return this.form.get('room').value;
   }
 
   ngOnInit() {
-    this.form.get('country').valueChanges.subscribe(  
-      value=> {  
-         this.form.get('name').setValue(value.name)
-      }  
-   ); 
+    this.form.get('room').valueChanges.subscribe(
+      value => {
+        this.form.get('sound').setValue(value.sound['name'])
+        this.form.get('format').setValue(value.format['name'])
+      }
+    );
   }
 
 }
