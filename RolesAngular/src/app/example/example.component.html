@@ -1,0 +1,11 @@
+<p>example works!</p>
+<p>
+	Binding selected value to an object with Reactive Forms
+</p>
+<form [formGroup]="form">
+	<select formControlName="country">
+    <option *ngFor="let country of countries" [ngValue]="country">{{country.name}}</option>
+  </select>
+  <input type="text" formControlName="name">
+	<p>Selected Country: {{country?.name}}</p>
+</form>

@@ -8,6 +8,7 @@ import { AuthGuard } from './_helpers/auth.guard';
 import { Role } from './_models/role';
 import { NoAccessComponent } from './no-access/no-access.component';
 import { AdminAuthGuard } from './_helpers/admin.auth.guard';
+import { ExampleComponent } from './example/example.component';
 
 
 const routes: Routes = [
@@ -34,6 +35,10 @@ const routes: Routes = [
   { 
     path: 'no-access', 
     component: NoAccessComponent 
+  },
+  { 
+    path: 'example', 
+    component: ExampleComponent 
   },
 
   // otherwise redirect to home
